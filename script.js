@@ -2,6 +2,8 @@ let currentNum = 0;
 let operatorSign;
 let oldNum = 0;
 
+let isDecimal = false;
+
 let screen = document.querySelector("#screen");
 
 function add(x) {
@@ -29,7 +31,10 @@ function divide(x) {
 }
 
 function addNumFromPad(e) {
-    if (screen.textContent == 0 || currentNum == 0) {
+    if (isDecimal) {
+        currentNum += e.textContent;
+        screen.textContent = currentNum;
+    } else if (screen.textContent == 0 || currentNum == 0) {
         currentNum = e.textContent;
         screen.textContent = currentNum;
     } else {
@@ -39,6 +44,10 @@ function addNumFromPad(e) {
 }
 
 function getOperator(e) {
+    if (e.id == "clear" || e.id == "remove") {
+        return;
+    }
+
     if (currentNum != 0) {
 
         if (oldNum == 0) {
@@ -50,6 +59,7 @@ function getOperator(e) {
         operatorSign = e.id;
 
         currentNum = 0;
+        isDecimal = false;
     }
 }
 
@@ -63,13 +73,14 @@ function makeCalculation() {
     } else if (operatorSign == "multipy") {
         multiply(currentNum);
     } else {
-        alert("Something went wrong. Try again.");
+        alert("Select an operator.");
     }
 
     currentNum = 0;
+    isDecimal = false;
 }
 
-let numbers = document.querySelectorAll(".numbers button");
+let numbers = document.querySelectorAll(".num");
 numbers.forEach(element => {
     element.addEventListener("click", function () {
         addNumFromPad(element);
@@ -93,4 +104,22 @@ clearSign.addEventListener("click", function () {
     currentNum = 0;
     oldNum = 0;
     screen.textContent = 0;
+});
+
+let dotSign = document.querySelector("#dot");
+dotSign.addEventListener("click", function () {
+    if (!isDecimal) {
+        currentNum += '.';
+        screen.textContent = currentNum;
+        isDecimal = true;
+    }
+});
+
+let removeSign = document.querySelector("#remove");
+removeSign.addEventListener("click", function () {
+    currentNum = currentNum.slice(0, -1);
+    if (currentNum == "") {
+        currentNum = 0;
+    }
+    screen.textContent = currentNum;
 });
