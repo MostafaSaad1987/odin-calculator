@@ -5,6 +5,12 @@
     flex-direction: column;
 
     width: 400px;
+
+    padding: 25px;
+
+    background-color: rgb(204, 204, 204);
+    border: 3px solid black;
+    border-radius: 25px;
 }
 
 .numbers {
@@ -64,7 +70,7 @@ h1 {
 
 .display {
     width: 355px;
-    text-align: center;
+    text-align: right;
     background-color: aliceblue;
     border: solid 2px black;
     border-radius: 5px;
